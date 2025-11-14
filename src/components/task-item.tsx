@@ -1,0 +1,33 @@
+import { PencilIcon, TrashIcon } from "lucide-react";
+import TaskPriorityDisplay from "./task-priority-display";
+
+export default function TaskListItem(items: any[], onEdit?: (task?: any) => void, onDelete?: (id: number) => void) {
+  function deleteTask(id: number) {
+    onDelete?.(id);
+  }
+  return (
+    <>
+      {items.map((item, index) => (
+        <div key={index} className="flex flex-col border rounded-lg shadow-md">
+          <div className="flex flex-row justify-between px-2">
+            <div className="flex flex-row gap-2">
+              <h3 className="grow text-lg font-semibold">{item.name}</h3>
+              <span className=" text-gray-500">{item.category ?? "null"}</span>
+            </div>
+            <div className="flex flex-row gap-1 my-auto">
+              <PencilIcon onClick={() => onEdit?.(item)} className="h-4 cursor-pointer" />
+              <TrashIcon onClick={() => deleteTask(item.id)} className="h-4 cursor-pointer" />
+            </div>
+          </div>
+          <div className="px-2 py-1 text-gray-600 border-y">
+            <p className="text-left">{item.description}</p>
+          </div>
+          <div className="flex flex-row justify-between px-2 py-1">
+            <span className="px-2 py-1">{item.status}</span>
+            <TaskPriorityDisplay priority={item.priority} />
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
