@@ -2,6 +2,7 @@ export type Task = {
   id: number;
   name: string;
   category: TaskCategory;
+  expiresAt: Date | null;
   description: string;
   status: TaskStatus;
   priority: TaskPriority;

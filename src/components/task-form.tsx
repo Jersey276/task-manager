@@ -41,6 +41,9 @@ export default function TaskForm({
     const name = (e.target as any).taskName.value as string;
     const description = (e.target as any).description.value as string;
     const category = (e.target as any).category.value as any;
+    const expiresAt = (e.target as any).expiresAt.value
+      ? new Date((e.target as any).expiresAt.value)
+      : null;
     const status = (e.target as any).status.value as any;
     const priority = (e.target as any).priority.value as any;
 
@@ -48,6 +51,7 @@ export default function TaskForm({
       id: taskToEdit ? taskToEdit.id : Date.now(),
       name,
       category,
+      expiresAt,
       description,
       status,
       priority,
@@ -131,6 +135,18 @@ export default function TaskForm({
                   name="priority"
                   options={statusPriorities}
                   defaultSelected={taskToEdit?.priority}
+                />
+              </div>
+              <div>
+                <FormInput
+                  label="Due Date"
+                  name="expiresAt"
+                  type="date"
+                  defaultValue={
+                    taskToEdit?.expiresAt
+                      ? taskToEdit.expiresAt.toISOString().split("T")[0]
+                      : ""
+                  }
                 />
               </div>
               <div className="col-span-2">

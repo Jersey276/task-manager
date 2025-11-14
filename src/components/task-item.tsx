@@ -1,5 +1,6 @@
 import { PencilIcon, TrashIcon } from "lucide-react";
 import TaskPriorityDisplay from "./task-priority-display";
+import DateDiff from "./date-diff";
 
 export default function TaskListItem(
   items: any[],
@@ -41,6 +42,9 @@ export default function TaskListItem(
           </div>
           <div className="flex flex-row justify-between px-2 py-1">
             <span className="px-2 py-1">{item.status}</span>
+            <span className="px-2 py-1">
+              {item.expiresAt && DateDiff(new Date(item.expiresAt))}
+            </span>
             <TaskPriorityDisplay priority={item.priority} />
           </div>
         </div>
