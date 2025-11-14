@@ -4,6 +4,7 @@ type Props = {
   type: string;
   defaultValue?: string;
 };
+
 export default function FormInput({ label, name, type, defaultValue }: Props) {
   return (
     <div className="flex flex-col mb-4">

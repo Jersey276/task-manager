@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@theme {
+  --color-boston-blue-50: #eefafd;
+  --color-boston-blue-100: #d5f1f8;
+  --color-boston-blue-200: #b0e3f1;
+  --color-boston-blue-300: #7acee6;
+  --color-boston-blue-400: #3db0d3;
+  --color-boston-blue-500: #2194ba;
+  --color-boston-blue-600: #1e769c;
+  --color-boston-blue-700: #1f607f;
+  --color-boston-blue-800: #225068;
+  --color-boston-blue-900: #204359;
+  --color-boston-blue-950: #102b3c;
+}

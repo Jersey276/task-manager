@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FormInput from "./form/input";
 import TextArea from "./form/textarea";
 import Select from "./form/select";
 import { PlusIcon, XIcon } from "lucide-react";
 import type { Task } from "../types";
 
-export default function TaskModal({
+export default function TaskForm({
   onCreate,
   onUpdate,
-  isOpen: controlledOpen,
   initialTask,
+  isOpen: controlledOpen,
   onClose,
 }: {
   onCreate: (task: Task) => void;
   onUpdate?: (task: Task) => void;
-  isOpen?: boolean;
   initialTask?: Task | null;
+  isOpen?: boolean;
   onClose?: () => void;
 }) {
   // Replace these arrays with your real values or build them at runtime from enums/constants.
@@ -23,16 +23,16 @@ export default function TaskModal({
   const statusPriorities: string[] = ["Low", "Medium", "High"];
   const categoryOptions: string[] = ["Work", "Personal", "Urgent", "Others"];
 
-  const [isOpen, setIsOpen] = useState(false); // Replace with actual state management logic
+  const [isOpen, setIsOpen] = useState(false); // internal visibility when uncontrolled
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 
-  // Sync controlled open/initialTask if provided
+  // sync controlled open and initialTask if parent passes them
   useEffect(() => {
     if (typeof controlledOpen === "boolean") setIsOpen(controlledOpen);
   }, [controlledOpen]);
 
   useEffect(() => {
-    if (initialTask) setTaskToEdit(initialTask);
+    setTaskToEdit(initialTask ?? null);
   }, [initialTask]);
 
   function submitForm(e: React.FormEvent) {
@@ -63,15 +63,18 @@ export default function TaskModal({
 
   return (
     <>
-      <button
-        onClick={() => {
-          setTaskToEdit(null);
-          setIsOpen(true);
-        }}
-        className="border border-linear-to-r rounded-lg p-2 bg-linear-to-r from-blue-400 via-teal-400 to-green-400"
-      >
-        New Task
-      </button>
+      {/* Only render built-in New button when modal is uncontrolled */}
+      {typeof controlledOpen === "undefined" && (
+        <button
+          onClick={() => {
+            setTaskToEdit(null);
+            setIsOpen(true);
+          }}
+          className="border border-linear-to-r rounded-lg p-2 bg-linear-to-r from-blue-400 via-teal-400 to-green-400"
+        >
+          New Task
+        </button>
+      )}
       {isOpen && (
         // Overlay: capture clicks to close the modal when user clicks outside
         <div
@@ -95,16 +98,40 @@ export default function TaskModal({
               className="absolute top-3 right-3 cursor-pointer"
             />
             <form onSubmit={submitForm} className="grid grid-cols-2 gap-4">
-              <FormInput label="Task Name" name="taskName" type="text" defaultValue={taskToEdit?.name} />
-              <Select label="Category" name="category" options={categoryOptions} defaultSelected={taskToEdit?.category} />
+              <FormInput
+                label="Task Name"
+                name="taskName"
+                type="text"
+                defaultValue={taskToEdit?.name}
+              />
+              <Select
+                label="Category"
+                name="category"
+                options={categoryOptions}
+                defaultSelected={taskToEdit?.category}
+              />
               <div className="col-span-2">
-                <TextArea label="Description" name="description" defaultValue={taskToEdit?.description}></TextArea>
+                <TextArea
+                  label="Description"
+                  name="description"
+                  defaultValue={taskToEdit?.description}
+                ></TextArea>
               </div>
               <div>
-                <Select label="Status" name="status" options={statusOptions} defaultSelected={taskToEdit?.status} />
+                <Select
+                  label="Status"
+                  name="status"
+                  options={statusOptions}
+                  defaultSelected={taskToEdit?.status}
+                />
               </div>
               <div>
-                <Select label="Priority" name="priority" options={statusPriorities} defaultSelected={taskToEdit?.priority} />
+                <Select
+                  label="Priority"
+                  name="priority"
+                  options={statusPriorities}
+                  defaultSelected={taskToEdit?.priority}
+                />
               </div>
               <div className="col-span-2">
                 <button className="flex border rounded p-2" type="submit">

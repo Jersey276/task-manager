@@ -2,7 +2,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import TaskList from "./components/task-list";
-import TaskModal from "./components/task-modal";
+import TaskForm from "./components/task-form";
 import type { Task } from "./types";
 
 function App() {
@@ -36,24 +36,44 @@ function App() {
     setTasks((prev) => prev.filter((t) => t.id !== id));
   }
 
+  // Modal control state for create/edit
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTask, setModalTask] = useState<Task | null>(null);
+
+  function openEditor(task?: Task | null) {
+    setModalTask(task ?? null);
+    setModalOpen(true);
+  }
+
   return (
-    <div className="">
-      <div className="">
-        <TaskModal onCreate={handleCreate} onUpdate={handleUpdate} />
+    <>
+      <div className="m-4 flex flex-row-reverse">
+        <button
+          onClick={() => openEditor(null)}
+          className="border-linear-to-r text-white rounded-lg p-2 bg-linear-to-r from-boston-blue-300 via-boston-blue-500 to-boston-blue-700"
+        >
+          New Task
+        </button>
       </div>
-      <TaskList tasks={tasks} onEdit={(task) => {
-        // open modal in edit mode by setting a global state — simplest approach is to
-        // reuse TaskModal's New button for now, but the pencil will trigger App-level editing
-        // We can open modal by temporarily writing to localStorage and triggering a re-open,
-        // but here we keep it simple: when pencil is clicked, set a temp flag in localStorage
-        // and reload the page so the modal can read it. Simpler: directly open modal isn't
-        // implemented — recommend next step to expose modal open API.
-        // As a pragmatic immediate behavior, populate the form by replacing localStorage
-        // with the edited task and then reload tasks from storage (not ideal).
-        localStorage.setItem("edit_task", JSON.stringify(task));
-        // Optional: navigate or trigger UI — for now do nothing else.
-      }} onDelete={handleDelete} />
-    </div>
+      <TaskForm
+        onCreate={(t) => {
+          handleCreate(t);
+          setModalOpen(false);
+        }}
+        onUpdate={(t) => {
+          handleUpdate(t);
+          setModalOpen(false);
+        }}
+        isOpen={modalOpen}
+        initialTask={modalTask}
+        onClose={() => setModalOpen(false)}
+      />
+      <TaskList
+        tasks={tasks}
+        onEdit={(task) => openEditor(task)}
+        onDelete={handleDelete}
+      />
+    </>
   );
 }
 

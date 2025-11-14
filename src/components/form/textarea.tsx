@@ -4,7 +4,13 @@ type Props = {
   rows?: number;
   defaultValue?: string;
 };
-export default function TextArea({ label, name, rows = 4, defaultValue }: Props) {
+
+export default function TextArea({
+  label,
+  name,
+  rows = 4,
+  defaultValue,
+}: Props) {
   return (
     <div className="flex flex-col mb-4">
       <label>{label}</label>
