@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import FormInput from "./form/input";
 import TextArea from "./form/textarea";
 import Select from "./form/select";
@@ -144,7 +145,9 @@ export default function TaskForm({
                   type="date"
                   defaultValue={
                     taskToEdit?.expiresAt
-                      ? taskToEdit.expiresAt.toISOString().split("T")[0]
+                      ? dayjs(taskToEdit.expiresAt).isValid()
+                        ? dayjs(taskToEdit.expiresAt).format("YYYY-MM-DD")
+                        : ""
                       : ""
                   }
                 />
