@@ -20,4 +20,3 @@ Il est construit avec React et TypeScript pour une experience utilisateur fluide
 ## Fonctionnalites non implementees
 
 - Filtrage et tri des taches (manque de temps + non-cohérent avec la structure de ma liste (organisation en carte))
-- Date d'echeance et rappels (manque de temps)
