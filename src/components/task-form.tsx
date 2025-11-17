@@ -70,18 +70,6 @@ export default function TaskForm({
 
   return (
     <>
-      {/* Only render built-in New button when modal is uncontrolled */}
-      {typeof controlledOpen === "undefined" && (
-        <button
-          onClick={() => {
-            setTaskToEdit(null);
-            setIsOpen(true);
-          }}
-          className="border border-linear-to-r rounded-lg p-2 bg-linear-to-r from-blue-400 via-teal-400 to-green-400"
-        >
-          New Task
-        </button>
-      )}
       {isOpen && (
         <div
           className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center m-auto justify-center"

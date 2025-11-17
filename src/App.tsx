@@ -48,10 +48,7 @@ function App() {
   return (
     <>
       <div className="m-4 flex flex-row-reverse">
-        <button
-          onClick={() => openEditor(null)}
-          className="border-linear-to-r text-white rounded-lg p-2 bg-linear-to-r from-boston-blue-300 via-boston-blue-500 to-boston-blue-700"
-        >
+        <button onClick={() => openEditor(null)} className="btn-primary">
           New Task
         </button>
       </div>
