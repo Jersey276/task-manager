@@ -12,7 +12,7 @@ export default defineConfig({
     devSourcemap: true,
     lightningcss: {
       targets: browserslistToTargets(browserslist([">0.25%", "not dead"])),
-      include: Features.Nesting,
+      include: Features.Nesting | Features.Colors,
     },
   },
   build: {
