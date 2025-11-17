@@ -6,19 +6,21 @@ import Select from "./form/select";
 import { PlusIcon, XIcon } from "lucide-react";
 import type { Task } from "../types";
 
+type Props = {
+  onCreate: (task: Task) => void;
+  onUpdate?: (task: Task) => void;
+  initialTask?: Task | null;
+  isOpen?: boolean;
+  onClose?: () => void;
+};
+
 export default function TaskForm({
   onCreate,
   onUpdate,
   initialTask,
   isOpen: controlledOpen,
   onClose,
-}: {
-  onCreate: (task: Task) => void;
-  onUpdate?: (task: Task) => void;
-  initialTask?: Task | null;
-  isOpen?: boolean;
-  onClose?: () => void;
-}) {
+}: Props) {
   // Replace these arrays with your real values or build them at runtime from enums/constants.
   const statusOptions: string[] = ["New", "In Progress", "Completed"];
   const statusPriorities: string[] = ["Low", "Medium", "High"];
@@ -62,7 +64,7 @@ export default function TaskForm({
     else onCreate(result);
 
     setTaskToEdit(null);
-    setIsOpen(false); // Close the modal after submission
+    setIsOpen(false);
     onClose?.();
   }
 
@@ -81,12 +83,13 @@ export default function TaskForm({
         </button>
       )}
       {isOpen && (
-        // Overlay: capture clicks to close the modal when user clicks outside
         <div
           className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center m-auto justify-center"
-          onMouseDown={() => setIsOpen(false)}
+          onMouseDown={() => {
+            setIsOpen(false);
+            onClose?.();
+          }}
         >
-          {/* Modal content: stop propagation so clicks inside don't close the modal */}
           <div
             className="relative bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg"
             onMouseDown={(e) => e.stopPropagation()}
